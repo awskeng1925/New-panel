@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>👑 OWNER COMMAND CENTER | Server God Clan Master</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070209;
+      --card-bg: rgba(22, 9, 32, 0.88);
+      --card-border: rgba(250, 204, 21, 0.35);
+      --gold: #facc15;
+      --gold-glow: rgba(250, 204, 21, 0.3);
+      --primary: #ff0055;
+      --secondary: #00ffcc;
+      --tg-blue: #0088cc;
+      --wp-green: #25d366;
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --input-bg: rgba(10, 3, 16, 0.85);
+      --input-border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(250, 204, 21, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255, 0, 85, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(0, 136, 204, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, #070109 0%, #170724 50%, #06010a 100%);
+      color: var(--text-main);
+      padding-bottom: 50px;
+    }
+
+    .topbar {
+      padding: 16px 28px;
+      background: rgba(18, 7, 26, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(250, 204, 21, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-title {
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-nav {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover { background: rgba(255, 255, 255, 0.18); }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .btn-logout:hover { background: #ef4444; color: #ffffff; }
+
+    .session-timer {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #38bdf8;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      background: rgba(14, 5, 20, 0.7);
+      padding: 8px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s;
+    }
+
+    .tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.2) 0%, rgba(202, 138, 4, 0.25) 100%);
+      color: var(--gold);
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      box-shadow: 0 4px 15px rgba(250, 204, 21, 0.15);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--primary));
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .metric-value.gold { color: var(--gold); }
+    .metric-value.green { color: #34d399; }
+    .metric-value.blue { color: #38bdf8; }
+    .metric-value.red { color: #f87171; }
+
+    .box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      backdrop-filter: blur(18px);
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 24px;
+    }
+
+    .box-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--gold);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      outline: none;
+      color: #ffffff;
+      background: var(--input-bg);
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.35);
+    }
+
+    button.btn-action {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #000000;
+      font-weight: 800;
+      font-size: 14px;
+      transition: all 0.25s;
+      background: linear-gradient(135deg, var(--gold) 0%, #ca8a04 100%);
+      box-shadow: 0 6px 20px rgba(250, 204, 21, 0.3);
+    }
+
+    button.btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(250, 204, 21, 0.5);
+    }
+
+    .user-card {
+      background: rgba(10, 3, 16, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .user-card:hover {
+      border-color: rgba(250, 204, 21, 0.3);
+      background: rgba(18, 6, 28, 0.85);
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge-active { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-blocked { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    .btn-small {
+      padding: 7px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #ffffff;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-small:hover { transform: translateY(-1px); }
+
+    .btn-green { background: #10b981; color: #ffffff; }
+    .btn-orange { background: #f59e0b; color: #000000; }
+    .btn-blue { background: #0088cc; color: #ffffff; }
+    .btn-red { background: #ef4444; color: #ffffff; }
+    .btn-purple { background: #a855f7; color: #ffffff; }
+
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .fleet-card {
+      background: rgba(12, 4, 18, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .fleet-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold);
+    }
+
+    .fleet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .fleet-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .fleet-owner-tag {
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .fleet-details {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .fleet-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: #140722;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      padding: 26px 30px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(250, 204, 21, 0.2);
+    }
+
+    .search-box {
+      margin-bottom: 16px;
+      display: flex;
+      gap: 10px;
+    }
+
+    @media (max-width: 880px) {
+      .topbar {
+        padding: 12px 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .topbar-title {
+        font-size: 16px;
+      }
+      .topbar-actions {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 6px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .topbar-actions::-webkit-scrollbar { display: none; }
+      .btn-nav, .btn-logout, .session-timer {
+        padding: 7px 12px;
+        font-size: 12px;
+        flex-shrink: 0;
+      }
+      .tab-bar {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 6px;
+        gap: 6px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .tab-bar::-webkit-scrollbar { display: none; }
+      .tab-btn {
+        flex: none;
+        min-width: max-content;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .box {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+      .fleet-grid {
+        grid-template-columns: 1fr;
+      }
+      input, textarea, select {
+        font-size: 16px;
+      }
+      .user-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .modal-card {
+        padding: 22px 16px;
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-title">
+      <span>👑</span>
+      <div>OWNER <strong>COMMAND CENTER</strong></div>
+    </div>
+
+    <div class="topbar-actions">
+      <a href="/mode" class="btn-nav">🎛️ MODES</a>
+      <a href="/gc_creator" class="btn-nav">🎯 SINGLE GC</a>
+      <a href="/multi_gc" class="btn-nav">👑 MULTI GC</a>
+      <a href="/telegram_master" class="btn-nav">✈️ TELEGRAM</a>
+      <a href="/whatsapp_master" class="btn-nav">💬 WHATSAPP</a>
+      <a href="/owner" class="btn-nav" style="border-color:var(--gold);background:rgba(250,204,21,0.25);color:var(--gold);">👑 OWNER HUB</a>
+      <span class="session-timer" id="sessionTimerDisplay">06h 00m 00s</span>
+      <a href="/logout" class="btn-nav btn-logout">🚪 LOGOUT</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">👥 Total Users</div>
+        <div class="metric-value gold" id="mUsers">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">👑 Multi-GC Bots</div>
+        <div class="metric-value red" id="mIg">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">🎯 Single GC Bots</div>
+        <div class="metric-value blue" id="mGc">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">✈️ Telegram Bots</div>
+        <div class="metric-value blue" id="mTg">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">💬 WhatsApp Nodes</div>
+        <div class="metric-value green" id="mWp">0</div>
+      </div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchOwnerTab('users')">
+        👥 Users
+      </button>
+      <button class="tab-btn" onclick="switchOwnerTab('owner_security')">
+        🔑 Security
+      </button>
+      <button class="tab-btn" onclick="switchOwnerTab('ig_fleet')">
+        📸 IG Fleet
+      </button>
+      <button class="tab-btn" onclick="switchOwnerTab('tg_fleet')">
+        ✈️ TG Fleet
+      </button>
+      <button class="tab-btn" onclick="switchOwnerTab('wp_fleet')">
+        💬 WP Fleet
+      </button>
+      <button class="tab-btn" onclick="switchOwnerTab('clan')">
+        🛡️ Clan
+      </button>
+    </div>
+
+    <div id="tab-users" class="tab-content active">
+      <div class="box">
+        <h2 class="box-title">➕ Add New User</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;">
+          <div>
+            <label style="font-size:12px;color:var(--gold);font-weight:700;">Full Name</label>
+            <input id="newUserName" placeholder="John Doe">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--gold);font-weight:700;">Email</label>
+            <input id="newUserEmail" placeholder="user@gmail.com">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--gold);font-weight:700;">Phone</label>
+            <input id="newUserPhone" placeholder="+91 9507325677">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--gold);font-weight:700;">Password</label>
+            <input id="newUserPass" placeholder="Password">
+          </div>
+        </div>
+        <button class="btn-action" style="margin-top:14px;" onclick="ownerAddUser()">💾 Create User</button>
+      </div>
+
+      <div class="box">
+        <div class="box-title">
+          <span>👥 All Users</span>
+          <span style="font-size:13px;color:var(--text-muted);" id="userCountText">0 Users</span>
+        </div>
+        <div class="search-box">
+          <input id="userSearchInput" placeholder="🔍 Search..." oninput="filterUsersList()">
+        </div>
+        <div id="usersList">Loading...</div>
+      </div>
+    </div>
+
+    <div id="tab-owner_security" class="tab-content">
+      <div class="box" style="max-width:650px;">
+        <h2 class="box-title">🔑 Change Owner Credentials</h2>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Update Owner login credentials.</p>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--gold);font-weight:700;">Owner Username</label>
+          <input id="owUsername" placeholder="OWNER">
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--gold);font-weight:700;">Password</label>
+          <input id="owPassword" placeholder="New password">
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px;color:var(--gold);font-weight:700;">Display Name</label>
+          <input id="owDisplayName" placeholder="PLATFORM OWNER">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px;color:var(--gold);font-weight:700;">Email</label>
+          <input id="owEmail" placeholder="spamkingxl400@gmail.com">
+        </div>
+        <button class="btn-action" onclick="saveOwnerCredentials()">💾 Update Credentials</button>
+      </div>
+    </div>
+
+    <div id="tab-ig_fleet" class="tab-content">
+      <div class="box">
+        <div class="box-title">
+          <span>👑 Multi-GC Fleet</span>
+          <span style="font-size:13px;color:var(--text-muted);" id="multiGcCountText">0</span>
+        </div>
+        <div id="multiGcFleet" class="fleet-grid">Loading...</div>
+      </div>
+      <div class="box">
+        <div class="box-title">
+          <span>🎯 Single GC Fleet</span>
+          <span style="font-size:13px;color:var(--text-muted);" id="singleGcCountText">0</span>
+        </div>
+        <div id="singleGcFleet" class="fleet-grid">Loading...</div>
+      </div>
+    </div>
+
+    <div id="tab-tg_fleet" class="tab-content">
+      <div class="box">
+        <div class="box-title">✈️ Telegram Fleet</div>
+        <div id="tgFleet" class="fleet-grid">Loading...</div>
+      </div>
+    </div>
+
+    <div id="tab-wp_fleet" class="tab-content">
+      <div class="box">
+        <div class="box-title">💬 WhatsApp Fleet</div>
+        <div id="wpFleet" class="fleet-grid">Loading...</div>
+      </div>
+    </div>
+
+    <div id="tab-clan" class="tab-content">
+      <div class="box">
+        <h2 class="box-title">🛡️ Clan Members</h2>
+        <div style="display:flex;gap:10px;margin-bottom:14px;">
+          <input id="newClanMember" placeholder="Enter member name">
+          <button class="btn-action" style="white-space:nowrap;padding:0 24px;" onclick="addClanMember()">➕ Add</button>
+        </div>
+        <div id="clanMembersList"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="modal-overlay" id="editUserModal">
+    <div class="modal-card">
+      <h3 style="color:var(--gold);font-size:18px;margin-bottom:8px;">✏️ Edit User</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Editing: <strong id="editUserOldEmail" style="color:#ffffff;"></strong></p>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;color:var(--gold);font-weight:700;">Full Name</label>
+        <input id="editUserName" placeholder="Full Name">
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;color:var(--gold);font-weight:700;">Email</label>
+        <input id="editUserEmail" placeholder="Email">
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;color:var(--gold);font-weight:700;">Phone</label>
+        <input id="editUserPhone" placeholder="Phone">
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;color:var(--gold);font-weight:700;">Password</label>
+        <input id="editUserPassword" placeholder="New password">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;color:var(--gold);font-weight:700;">Status</label>
+        <select id="editUserStatus">
+          <option value="active">🟢 ACTIVE</option>
+          <option value="blocked">⛔ BLOCKED</option>
+        </select>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn-small" style="background:rgba(255,255,255,0.15);padding:10px 16px;" onclick="closeEditUserModal()">Cancel</button>
+        <button class="btn-action" style="padding:10px 20px;" onclick="submitEditUser()">💾 Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let globalUsers = {};
+    let targetEditEmail = "";
+
+    function switchOwnerTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById('tab-' + tabName).classList.add('active');
+    }
+
+    async function loadOwnerData() {
+      try {
+        const [igRes, gcRes, tgRes, wpRes, profRes] = await Promise.all([
+          fetch("/status"),
+          fetch("/gc_status"),
+          fetch("/tg_status"),
+          fetch("/wp_status"),
+          fetch("/api/user/profile")
+        ]);
+
+        const igData = await igRes.json();
+        const gcData = await gcRes.json();
+        const tgData = await tgRes.json();
+        const wpData = await wpRes.json();
+        const profData = await profRes.json();
+
+        if (profData && profData.role === 'owner') {
+          if (!document.getElementById("owUsername").value) {
+            document.getElementById("owUsername").value = profData.username || "OWNER";
+            document.getElementById("owDisplayName").value = profData.name || "PLATFORM OWNER";
+            document.getElementById("owEmail").value = profData.email || "spamkingxl400@gmail.com";
+          }
+        }
+
+        globalUsers = igData.users || {};
+        const usersCount = Object.keys(globalUsers).length;
+        const igCount = Object.keys(igData.accounts || {}).length;
+        const gcCount = Object.keys(gcData.accounts || {}).length;
+        const tgUbCount = Object.keys(tgData.userbots || {}).length;
+        const tgSwarmCount = Object.keys(tgData.swarms || {}).length;
+        const wpCount = Object.keys(wpData.accounts || {}).length;
+
+        document.getElementById("mUsers").textContent = usersCount;
+        document.getElementById("mIg").textContent = igCount;
+        document.getElementById("mGc").textContent = gcCount;
+        document.getElementById("mTg").textContent = tgUbCount + tgSwarmCount;
+        document.getElementById("mWp").textContent = wpCount;
+        document.getElementById("userCountText").textContent = `${usersCount} Users`;
+        document.getElementById("multiGcCountText").textContent = `${igCount} Multi-GC`;
+        document.getElementById("singleGcCountText").textContent = `${gcCount} Single-GC`;
+
+        renderUsersList(globalUsers);
+        renderMultiGcFleet(igData.accounts || {}, igData.stats || {});
+        renderSingleGcFleet(gcData.accounts || {}, gcData.stats || {});
+        renderTgFleet(tgData.userbots || {}, tgData.swarms || {});
+        renderWpFleet(wpData.accounts || {}, wpData.stats || {});
+        renderClanMembers(igData.members || []);
+
+      } catch (err) {
+        console.error("Owner data load error:", err);
+      }
+    }
+
+    function renderUsersList(users) {
+      let html = "";
+      Object.entries(users).forEach(([uname, u]) => {
+        const email = u.email || uname;
+        const isBlocked = u.status === "blocked" || u.status === "deactivated";
+        html += `
+          <div class="user-card">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <strong style="font-size:16px;color:#ffffff;">${u.name || uname}</strong>
+                <span class="badge-status ${isBlocked ? 'badge-blocked' : 'badge-active'}">
+                  ${isBlocked ? 'BLOCKED' : 'ACTIVE'}
+                </span>
+                <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:rgba(250,204,21,0.15);color:var(--gold);font-weight:700;">${(u.role || 'USER').toUpperCase()}</span>
+              </div>
+              <div style="font-size:13px;color:#a1a1aa;margin-top:6px;line-height:1.6;">
+                📧 ${u.email || 'N/A'} | 📱 ${u.phone || 'N/A'}
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn-small btn-blue" onclick="openEditUserModal('${email}')">✏️ Edit</button>
+              <button class="btn-small ${isBlocked ? 'btn-green' : 'btn-orange'}" onclick="toggleUserStatus('${email}', '${isBlocked ? 'active' : 'blocked'}')">
+                ${isBlocked ? '🟢 Unblock' : '⛔ Block'}
+              </button>
+              <button class="btn-small btn-red" onclick="ownerDeleteUser('${email}')">🗑 Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById("usersList").innerHTML = html || "<p style='color:#a1a1aa;padding:12px;'>No users found.</p>";
+    }
+
+    function filterUsersList() {
+      const q = document.getElementById("userSearchInput").value.toLowerCase().trim();
+      const filtered = {};
+      Object.entries(globalUsers).forEach(([k, u]) => {
+        const text = `${u.name || ''} ${u.email || ''} ${u.phone || ''} ${k}`.toLowerCase();
+        if (text.includes(q)) filtered[k] = u;
+      });
+      renderUsersList(filtered);
+    }
+
+    function renderMultiGcFleet(accounts, stats) {
+      let html = "";
+      Object.entries(accounts).forEach(([uid, acc]) => {
+        const st = stats[uid] || {};
+        const isRunning = st.running;
+        html += `
+          <div class="fleet-card">
+            <div>
+              <div class="fleet-header">
+                <div>
+                  <div class="fleet-title">👑 Multi-GC #${uid}</div>
+                  <div class="fleet-owner-tag">👤 ${acc.admin_name || acc.owner || 'Unknown'}</div>
+                </div>
+                <span class="badge-status ${isRunning ? 'badge-active' : 'badge-blocked'}">${isRunning ? '🟢 RUNNING' : '○ STOPPED'}</span>
+              </div>
+              <div class="fleet-details">
+                <div>🎯 ${acc.opponent || 'No target'}</div>
+                <div>📨 Sent: ${st.sent || 0} | 🏷 Renamed: ${st.renamed || 0}</div>
+              </div>
+            </div>
+            <div class="fleet-actions">
+              ${isRunning ? 
+                `<button class="btn-small btn-red" onclick="ownerStopMultiGc('${uid}')">⏹ Stop</button>` : 
+                `<button class="btn-small btn-green" onclick="ownerStartMultiGc('${uid}')">▶ Start</button>`
+              }
+              <button class="btn-small btn-red" onclick="ownerDeleteMultiGc('${uid}')">🗑 Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById("multiGcFleet").innerHTML = html || "<p style='color:#a1a1aa;'>No Multi-GC bots.</p>";
+    }
+
+    function renderSingleGcFleet(accounts, stats) {
+      let html = "";
+      Object.entries(accounts).forEach(([uid, acc]) => {
+        const st = stats[uid] || {};
+        const isRunning = st.running;
+        html += `
+          <div class="fleet-card">
+            <div>
+              <div class="fleet-header">
+                <div>
+                  <div class="fleet-title">🎯 Single GC #${uid}</div>
+                  <div class="fleet-owner-tag">👤 ${acc.admin_name || acc.owner || 'Unknown'}</div>
+                </div>
+                <span class="badge-status ${isRunning ? 'badge-active' : 'badge-blocked'}">${isRunning ? '🟢 RUNNING' : '○ STOPPED'}</span>
+              </div>
+              <div class="fleet-details">
+                <div>🎯 ${acc.opponent || 'No target'}</div>
+                <div>📨 Strikes: ${st.groups || 0}</div>
+              </div>
+            </div>
+            <div class="fleet-actions">
+              ${isRunning ? 
+                `<button class="btn-small btn-red" onclick="ownerStopSingleGc('${uid}')">⏹ Stop</button>` : 
+                `<button class="btn-small btn-green" onclick="ownerStartSingleGc('${uid}')">▶ Start</button>`
+              }
+              <button class="btn-small btn-red" onclick="ownerDeleteSingleGc('${uid}')">🗑 Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById("singleGcFleet").innerHTML = html || "<p style='color:#a1a1aa;'>No Single GC bots.</p>";
+    }
+
+    function renderTgFleet(userbots, swarms) {
+      let html = "";
+      Object.entries(userbots).forEach(([k, ub]) => {
+        html += `
+          <div class="fleet-card">
+            <div>
+              <div class="fleet-header">
+                <div>
+                  <div class="fleet-title">👤 Userbot: ${ub.name || k}</div>
+                  <div class="fleet-owner-tag">👤 ${ub.admin_name || ub.owner || 'Unknown'}</div>
+                </div>
+                <span class="badge-status badge-active">🟢 ONLINE</span>
+              </div>
+              <div class="fleet-details">
+                <div>📱 +${ub.phone || k}</div>
+                <div>🆔 ${ub.user_id || 'N/A'}</div>
+              </div>
+            </div>
+            <div class="fleet-actions">
+              <button class="btn-small btn-red" onclick="ownerDisconnectTgUb('${ub.phone || k}')">🔌 Disconnect</button>
+            </div>
+          </div>
+        `;
+      });
+
+      Object.entries(swarms).forEach(([token, sw]) => {
+        html += `
+          <div class="fleet-card">
+            <div>
+              <div class="fleet-header">
+                <div>
+                  <div class="fleet-title">👑 Swarm: @${sw.username || 'Bot'}</div>
+                  <div class="fleet-owner-tag">👤 ${sw.admin_name || sw.owner || 'Unknown'}</div>
+                </div>
+                <span class="badge-status ${sw.running ? 'badge-active' : 'badge-blocked'}">${sw.running ? '🟢 RUNNING' : '○ IDLE'}</span>
+              </div>
+              <div class="fleet-details">
+                <div>🔑 ${token.substring(0, 14)}...</div>
+              </div>
+            </div>
+            <div class="fleet-actions">
+              <button class="btn-small btn-red" onclick="ownerDeleteTgSwarm('${token}')">🗑 Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById("tgFleet").innerHTML = html || "<p style='color:#a1a1aa;'>No Telegram nodes.</p>";
+    }
+
+    function renderWpFleet(accounts, stats) {
+      let html = "";
+      Object.entries(accounts).forEach(([uid, acc]) => {
+        const st = stats[uid] || {};
+        const isOnline = st.isOnline;
+        html += `
+          <div class="fleet-card">
+            <div>
+              <div class="fleet-header">
+                <div>
+                  <div class="fleet-title">💬 WhatsApp #${uid}</div>
+                  <div class="fleet-owner-tag">👤 ${acc.admin_name || acc.owner || 'Unknown'}</div>
+                </div>
+                <span class="badge-status ${isOnline ? 'badge-active' : 'badge-blocked'}">${isOnline ? '🟢 ONLINE' : '○ OFFLINE'}</span>
+              </div>
+              <div class="fleet-details">
+                <div>📱 ${st.connectedNumber || 'Not Linked'}</div>
+                <div>🚀 ${st.running ? 'RUNNING' : 'STOPPED'}</div>
+              </div>
+            </div>
+            <div class="fleet-actions">
+              <button class="btn-small btn-red" onclick="ownerDeleteWpNode('${uid}')">🗑 Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById("wpFleet").innerHTML = html || "<p style='color:#a1a1aa;'>No WhatsApp nodes.</p>";
+    }
+
+    function renderClanMembers(members) {
+      let html = "";
+      members.forEach((m, idx) => {
+        html += `
+          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.4);padding:12px 16px;border-radius:10px;margin-top:8px;border:1px solid rgba(255,255,255,0.06);">
+            <span>👑 <strong>${m}</strong></span>
+            <button class="btn-small btn-red" onclick="removeClanMember(${idx})">✖ Remove</button>
+          </div>
+        `;
+      });
+      document.getElementById("clanMembersList").innerHTML = html || "<p style='color:#a1a1aa;'>No clan members.</p>";
+    }
+
+    async function ownerAddUser() {
+      const name = document.getElementById("newUserName").value.trim();
+      const email = document.getElementById("newUserEmail").value.trim();
+      const phone = document.getElementById("newUserPhone").value.trim();
+      const password = document.getElementById("newUserPass").value.trim();
+
+      if (!name || !email || !password) return alert("Name, Email, Password required!");
+
+      await fetch("/api/owner/users/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, password })
+      });
+      document.getElementById("newUserName").value = "";
+      document.getElementById("newUserEmail").value = "";
+      document.getElementById("newUserPhone").value = "";
+      document.getElementById("newUserPass").value = "";
+      loadOwnerData();
+    }
+
+    async function toggleUserStatus(email, newStatus) {
+      await fetch("/api/owner/users/toggle_status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, status: newStatus })
+      });
+      loadOwnerData();
+    }
+
+    async function ownerDeleteUser(userKey) {
+      if (!confirm(`Delete user '${userKey}' permanently?`)) return;
+      await fetch("/api/owner/users/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: userKey })
+      });
+      loadOwnerData();
+    }
+
+    function openEditUserModal(email) {
+      targetEditEmail = email;
+      const u = globalUsers[email] || {};
+      document.getElementById("editUserOldEmail").textContent = email;
+      document.getElementById("editUserName").value = u.name || "";
+      document.getElementById("editUserEmail").value = u.email || email;
+      document.getElementById("editUserPhone").value = u.phone || "";
+      document.getElementById("editUserPassword").value = u.password || "";
+      document.getElementById("editUserStatus").value = u.status || "active";
+      document.getElementById("editUserModal").style.display = "flex";
+    }
+
+    function closeEditUserModal() {
+      document.getElementById("editUserModal").style.display = "none";
+    }
+
+    async function submitEditUser() {
+      const name = document.getElementById("editUserName").value.trim();
+      const email = document.getElementById("editUserEmail").value.trim();
+      const phone = document.getElementById("editUserPhone").value.trim();
+      const password = document.getElementById("editUserPassword").value.trim();
+      const status = document.getElementById("editUserStatus").value;
+
+      if (!name || !email) return alert("Name and Email required!");
+
+      await fetch("/api/owner/users/edit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          old_email: targetEditEmail,
+          name,
+          email,
+          phone,
+          password,
+          status
+        })
+      });
+      closeEditUserModal();
+      loadOwnerData();
+    }
+
+    async function saveOwnerCredentials() {
+      const username = document.getElementById("owUsername").value.trim();
+      const password = document.getElementById("owPassword").value.trim();
+      const name = document.getElementById("owDisplayName").value.trim();
+      const email = document.getElementById("owEmail").value.trim();
+
+      if (!username || !password) return alert("Username and Password required!");
+
+      await fetch("/api/owner/change_credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, name, email })
+      });
+      loadOwnerData();
+    }
+
+    async function ownerStartMultiGc(uid) {
+      await fetch("/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function ownerStopMultiGc(uid) {
+      await fetch("/stop", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function ownerDeleteMultiGc(uid) {
+      if (!confirm(`Delete Multi-GC #${uid}?`)) return;
+      await fetch("/delete_account", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function ownerStartSingleGc(uid) {
+      await fetch("/gc_start", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function ownerStopSingleGc(uid) {
+      await fetch("/gc_stop", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function ownerDeleteSingleGc(uid) {
+      if (!confirm(`Delete Single GC #${uid}?`)) return;
+      await fetch("/gc_delete_account", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function ownerDisconnectTgUb(phone) {
+      if (!confirm(`Disconnect userbot +${phone}?`)) return;
+      await fetch("/tg_userbot_disconnect", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ phone }) });
+      loadOwnerData();
+    }
+
+    async function ownerDeleteTgSwarm(token) {
+      if (!confirm(`Delete Swarm bot?`)) return;
+      await fetch("/tg_swarm_delete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token }) });
+      loadOwnerData();
+    }
+
+    async function ownerDeleteWpNode(uid) {
+      if (!confirm(`Delete WhatsApp node ${uid}?`)) return;
+      await fetch("/wp_delete_account", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ uid }) });
+      loadOwnerData();
+    }
+
+    async function addClanMember() {
+      const name = document.getElementById("newClanMember").value.trim();
+      if (!name) return;
+      const res = await fetch("/status");
+      const d = await res.json();
+      const members = d.members || [];
+      members.push(name);
+      await fetch("/api/owner/members/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ members })
+      });
+      document.getElementById("newClanMember").value = "";
+      loadOwnerData();
+    }
+
+    async function removeClanMember(idx) {
+      const res = await fetch("/status");
+      const d = await res.json();
+      const members = d.members || [];
+      members.splice(idx, 1);
+      await fetch("/api/owner/members/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ members })
+      });
+      loadOwnerData();
+    }
+
+    async function syncSessionTimer() {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          let sec = data.remainingSeconds || 21600;
+          const interval = setInterval(() => {
+            sec--;
+            if (sec <= 0) {
+              clearInterval(interval);
+              alert("⏳ Session expired!");
+              window.location.href = "/logout";
+            }
+            const hrs = Math.floor(sec / 3600);
+            const mins = Math.floor((sec % 3600) / 60);
+            const secs = sec % 60;
+            const el = document.getElementById("sessionTimerDisplay");
+            if (el) el.textContent = `${String(hrs).padStart(2, '0')}h ${String(mins).padStart(2, '0')}m ${String(secs).padStart(2, '0')}s`;
+          }, 1000);
+        }
+      } catch (e) {}
+    }
+
+    loadOwnerData();
+    setInterval(loadOwnerData, 4000);
+    syncSessionTimer();
+  </script>
+</body>
+</html>
